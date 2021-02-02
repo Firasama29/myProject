@@ -26,12 +26,30 @@
         <h1><a href="/">PROJECTS</a></h1>
         <nav id="nav">
             <ul>
-				<li><a href="/add">NEW PROJECT</a></li>            
-            	<li><a href="websites">WEBSITES</a></li>
-            	<li><a href="blogs">BLOGS</a></li>
-            	<li><a href="tools">TOOLS</a></li>
-                <li><a href="/#frontend">FRONT-END</a></li>
-                <li><a href="#backend">BACK-END</a></li>
+				<li class="dropdown">
+					<span>NEW</span>
+						<p class="dropdown-content">
+							<a href="/add">NEW PROJECT</a>
+							<a href="/addLink">NEW LINK</a>
+						</p>
+				</li>	            
+                <li><a href="/blogs">BLOGS</a></li>
+                <li class="dropdown">
+                	<span>WEBSITES</span>
+                		<p class="dropdown-content">
+                			<a href="/website/?type=tutorials">WEBSITES</a><br>
+                			<a href="/tool/?type=tool">TOOLS</a><br>
+                			<a href="/github/?type=github">GITHUB</a>
+                		</p>
+                </li>
+                <li class="dropdown">
+                	<span><a href="/">MY PROJECTS</a></span>
+	                	<p class="dropdown-content" style="color: black">
+		                	<a  href="/angular?languages=angular">ANGULAR</a><br>
+		                	<a style="color: black" href="/java?languages=java">JAVA</a><br>
+			                <a style="color: black" href="/javascript?languages=javascript">JAVASCRIPT</a>
+	                	</p>
+                </li>
             </ul>
         </nav>
     </header>
@@ -57,34 +75,35 @@
         <div class="container">
             <div class="row">
                 <div class="4u">
-                    <section class="special box" id="frontend">
-                        <a href="/angular?languages=angular" class="links">
+                    <a href="/angular?languages=angular" class="links">	
+                    	<section class="special box" id="frontend">
                             <i class="fab fa-angular"></i>
                             <h3>Angular</h3>
                             <p>This section consists of Angular Projects</p><br>
                             <p class="minimze">#angular #front-end</p>
-						</a>                    
-                    </section>
+                    	</section>
+                    </a>	
                 </div>
 
                 <div class="4u">
-					<section class="special box" id="frontend">
-						<a href="/javascript?languages=javascript" class="links">
+					<a href="/javascript?languages=javascript" class="links">	
+						<section class="special box" id="frontend">
                             <i class="fab fa-js"></i>
                             <h3>JavaScript</h3>
                             <p>This section contains HTML/CSS/JavaScript practice projects</p>
                             <p class="minimze">#javascript #js #front_end</p>
-                        </a>
-                    </section>
+                    	</section>
+                    </a>	
                 </div>
                 <div class="4u">
-                    <section class="special box"  id="backend">
-                        <a href="java?languages=java" class="links">
-                        <i class="fab fa-java"></i>
-                        <h3>Java/Spring-Boot</h3>
-                        <p>This section contains projects using Spring Boot, REST APIs. etc.</p>
-                        <p class="minimze">#java #spring-boot #rest-api #back_end</p>
-                    </a></section>
+                	<a href="java?languages=java" class="links">
+                    	<section class="special box"  id="backend">
+	                        <i class="fab fa-java"></i>
+	                        <h3>Java/Spring-Boot</h3>
+	                        <p>This section contains projects using Spring Boot, REST APIs. etc.</p>
+	                        <p class="minimze">#java #spring-boot #rest-api #back_end</p>
+                    	</section>
+                    </a>	
                 </div>
                 
             </div>

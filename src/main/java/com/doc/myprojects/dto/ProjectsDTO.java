@@ -1,6 +1,7 @@
 package com.doc.myprojects.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,7 +16,7 @@ public class ProjectsDTO{
 	
 	private String description;
 	
-	private String languages;
+	private List<String> languages;
 	
 	private String type;
 	
@@ -25,21 +26,6 @@ public class ProjectsDTO{
 	
 	private String github;
 	
-	public ProjectsDTO() {}
-	
-	public ProjectsDTO(String id, String title, Date date, String description, String languages, String type, String status,
-			String IDE, String github) {
-		this.id = id;
-		this.title = title;
-		this.date = date;
-		this.description = description;
-		this.languages = languages;
-		this.type = type;
-		this.IDE = IDE;
-		this.status = status;
-		this.github = github;
-	}
-
 	public String getId() {
 		return id;
 	}
@@ -72,11 +58,11 @@ public class ProjectsDTO{
 		this.description = description;
 	}
 	
-	public String getLanguages() {
+	public List<String> getLanguages() {
 		return languages;
 	}
 
-	public void setLanguage(String languages) {
+	public void setLanguages(List<String> languages) {
 		this.languages = languages;
 	}
 	

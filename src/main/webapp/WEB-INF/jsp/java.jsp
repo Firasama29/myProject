@@ -16,63 +16,40 @@
     <script src="/resources/js/skel.min.js"></script>
     <script src="/resources/js/skel-layers.min.js"></script>
     <script src="/resources/js/init.js"></script>
-      <link rel="stylesheet" href="/resources/css/skel.css" />
-      <link rel="stylesheet" href="/resources/css/style.css" />
-      <link rel="stylesheet" href="/resources/css/style-xlarge.css" />
-      
-      <!--collapsible list-->
-      <style>
-	.collapsible {
-	  background-color: #777;
-	  color: white;
-	  cursor: pointer;
-	  padding: 18px;
-	  width: 100%;
-	  border: none;
-	  text-align: left;
-	  outline: none;
-	  font-size: 15px;
-	}
-	
-	.active, .collapsible:hover {
-	  background-color: #555;
-	}
-	
-	.collapsible:after {
-	  content: '\002B';
-	  color: white;
-	  font-weight: bold;
-	  float: right;
-	  margin-left: 5px;
-	}
-	
-	.active:after {
-	  content: "\2212";
-	}
-	
-	.content {
-	  padding: 0 18px;
-	  max-height: 0;
-	  overflow: hidden;
-	  transition: max-height 0.2s ease-out;
-	  background-color: #f1f1f1;
-	}
-</style>
+    <link rel="stylesheet" href="/resources/css/skel.css" />
+    <link rel="stylesheet" href="/resources/css/style.css" />
+    <link rel="stylesheet" href="/resources/css/style-xlarge.css" />
 </head>
 
 <body id="top">
     <!-- Header -->
     <header id="header" class="skel-layers-fixed">
-        <h1><a href="/">Logo</a></h1>
+        <h1><a href="/">PROJECTS</a></h1>
         <nav id="nav">
             <ul>
-            	<li><a href="/add">NEW PROJECT</a></li>
-            	<li><a href="/websites">WEBSITES</a></li>
-                <li><a href="blogs">BLOGS</a></li>
-            	<li><a href="tools">TOOLS</a></li>
-                <li><a href="/">FRONT-END</a></li>
-                <li><a href="/#backend">BACK-END</a></li>
-                <li><a href="/">HOME</a></li>
+				<li class="dropdown">
+					<span>NEW</span>
+						<p class="dropdown-content">
+							<a href="/add">NEW PROJECT</a>
+							<a href="/addLink">NEW LINK</a>
+						</p>
+				</li>	            
+                <li><a href="/blogs">BLOGS</a></li>
+                <li class="dropdown">
+                	<span>WEBSITES</span>
+                		<p class="dropdown-content">
+                			<a href="/website/?type=tutorials">WEBSITES</a><br>
+                			<a href="/tool/?type=tool">TOOLS</a><br>
+                			<a href="/github/?type=githubt">GITHUB</a>
+                		</p>
+                </li>
+                <li class="dropdown">
+                	<span><a href="/">MY PROJECTS</a></span>
+	                	<p class="dropdown-content">
+			                <a href="/angular?languages=angular">ANGULAR</a><br>
+			                <a href="/javascript?languages=javascript">JAVASCRIPT</a>
+	                	</p>
+                </li>
             </ul>
         </nav>
     </header>
@@ -108,25 +85,14 @@
 					
 					<button class="collapsible">SPRING BOOT</button>
 					<div class="content">
-						<ul class="alt">
-                        	<c:forEach items="${projects}" var="project">
-	                            <li><a href="#projects">${project.title}</a></li>
-                            </c:forEach>
-                        </ul>
-					</div>
-                </div>
-            </div>
-            <hr class="major" />
-            <table class="table table-striped">
+						<table class="table table-striped"; class="alt">
 	           <thead>
 	               <tr id="projects">
 	                   <th title="project title">Title</th>
 	                   <th title="starting date">Date</th>
 	                   <th title="project description">Description</th>
-	                   <th title="coding languages">Languages</th>
 	                   <th title="type">Type</th>
 	                   <th title="project status">Status</th>
-	                   <th title="IDE">IDE</th>
 	                   <th title="github link">Github</th>
 	               </tr>
 	           </thead>
@@ -136,10 +102,40 @@
                                <td>${project.title}</td>
                                <td>${project.date}</td>
                                <td>${project.description}</td>
-                               <td>${project.languages}</td>
                                <td>${project.type}</td>
                                <td>${project.status}</td>
-                               <td>${project.IDE}</td>
+                               <td><a href="https://firasama29@github.com" target="blank">${project.github}</a></td>
+                               <td>
+                                   <a href="/update?title=${project.title}" class="a2" title="edit"><img src="https://img.icons8.com/material-rounded/15/000000/edit.png" /></a>
+                                   <a href="java/title?title=${project.title}" class="a2" title="delete"><img src="https://img.icons8.com/material-two-tone/15/000000/delete-sign.png" /></a>
+                               </td>
+                       </tr>
+                   </c:forEach>
+               </tbody>
+		    </table>
+					</div>
+                </div>
+            </div>
+            <hr class="major" />
+            <table>
+	           <thead>
+	               <tr id="projects">
+	                   <th title="project title">Title</th>
+	                   <th title="starting date">Date</th>
+	                   <th title="project description">Description</th>
+	                   <th title="type">Type</th>
+	                   <th title="project status">Status</th>
+	                   <th title="github link">Github</th>
+	               </tr>
+	           </thead>
+               <tbody>
+                   <c:forEach items="${projects}" var="project">
+                       <tr>
+                               <td>${project.title}</td>
+                               <td>${project.date}</td>
+                               <td>${project.description}</td>
+                               <td>${project.type}</td>
+                               <td>${project.status}</td>
                                <td><a href="https://firasama29@github.com" target="blank">${project.github}</a></td>
                                <td>
                                    <a href="/update?title=${project.title}" class="a2" title="edit"><img src="https://img.icons8.com/material-rounded/15/000000/edit.png" /></a>

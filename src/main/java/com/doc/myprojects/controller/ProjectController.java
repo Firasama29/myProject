@@ -1,7 +1,6 @@
 package com.doc.myprojects.controller;
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.Optional;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,17 +8,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.doc.myprojects.dto.LinksDTO;
 import com.doc.myprojects.dto.LoginDTO;
 import com.doc.myprojects.dto.ProjectsDTO;
 import com.doc.myprojects.rest.template.WebRestTemplate;
@@ -31,30 +30,59 @@ public class ProjectController extends RestTemplate{
 	
 	Logger log = LoggerFactory.getLogger(ProjectController.class);
 
-	//------------------------------------------------------------------------main pages
-	//index page
-	@GetMapping("/")
+	//------------------------------------------------------------------------index page
+	@GetMapping("/main")
 	public String viewIndex() {
 		return "index";
 	}
 	
-	//------------------------------------------------------------------------signup page
+	//------------------------------------------------------------------------sign-up page
 	@GetMapping("/signup")
 	public String signup() {
 		return "signup";
 	}
+	
 	//------------------------------------------------------------------------login page
 	@GetMapping("/login")
 	public String viewLogin() {
 		return "login";
 	}
 	
-	//------------------------------------------------------------------------login page
-		@GetMapping("/websites")
-		public String viewWebsites() {
-			return "websites";
-		}
+	//------------------------------------------------------------------------add-websites page
+	@GetMapping("/addLink")
+	public String addLink(@ModelAttribute LinksDTO linksDto) {
+		return "add-Link";
+	}
+	
+	//------------------------------------------------------------------------add websites
+	@PostMapping("/addLink")
+	public String addWebsites(@ModelAttribute LinksDTO linksDto, Model model) {
+		String message = "saved";
+		String url = "http://localhost:8086/api/links/";
 		
+		linksDto = webRestTemplate.postForObject(url, linksDto, LinksDTO.class);
+		
+		model.addAttribute("links", linksDto);
+		model.addAttribute("message", message);
+		
+		log.info("links: ", linksDto);
+		
+		return "redirect:addLink";
+	}
+	
+	//------------------------------------------------------------------------blogs page
+	@GetMapping("/blogs")
+	public String viewBlogs() {
+		return "blogs";
+	}
+	
+	//------------------------------------------------------------------------tools page
+	@GetMapping("/addTool")
+	public ModelAndView redirectToTools() {
+		ModelAndView mav = new ModelAndView("/add-tool");
+		
+		return mav;
+	}
 		
 	//login
 	@PostMapping("/login")
@@ -62,7 +90,7 @@ public class ProjectController extends RestTemplate{
 		
 		ModelAndView mv = new ModelAndView("login");
 		
-		String url = "http://localhost:8088/";
+		String url = "http://localhost:8083/";
 		
 		usersDto = webRestTemplate.postForObject(url, usersDto, LoginDTO.class);
 		
@@ -73,8 +101,7 @@ public class ProjectController extends RestTemplate{
 		return mv;
 	}
 	
-	
-	//------------------------------------------------------------------------view java projects
+	//----------------------------------------------------------------------------view java projects
 	@GetMapping("/java")
 	public ModelAndView getJavaProjects(@RequestParam("languages") String languages) {
 		
@@ -82,7 +109,7 @@ public class ProjectController extends RestTemplate{
 		
 		ProjectsDTO[] projects = null;
 		
-		projects = webRestTemplate.getForObject("http://localhost:8088/api/projects/java/"+languages, ProjectsDTO[].class);
+		projects = webRestTemplate.getForObject("http://localhost:8083/api/projects/"+languages, ProjectsDTO[].class);
 		
 		Arrays.stream(projects).forEach(project -> System.out.println(project));
 		Arrays.toString(projects);
@@ -90,7 +117,7 @@ public class ProjectController extends RestTemplate{
 		
 		return mav;
 	}
-	
+	//----------------------------------------------------------------------------view angular projects
 	@GetMapping("/angular")
 	public ModelAndView getAngularProjects(@RequestParam("languages") String languages) {
 		
@@ -98,7 +125,7 @@ public class ProjectController extends RestTemplate{
 		
 		ProjectsDTO[] projects = null;
 		
-		projects = webRestTemplate.getForObject("http://localhost:8088/api/projects/angular/"+languages, ProjectsDTO[].class);
+		projects = webRestTemplate.getForObject("http://localhost:8083/api/projects/"+languages, ProjectsDTO[].class);
 		
 		Arrays.stream(projects).forEach(project -> System.out.println(project));
 		Arrays.toString(projects);
@@ -106,22 +133,62 @@ public class ProjectController extends RestTemplate{
 		
 		return mav;
 	}
-	
+	//----------------------------------------------------------------------------view javascript projects
 	@GetMapping("/javascript")
 	public ModelAndView getJSProjects(@RequestParam("languages") String languages) {
 		ModelAndView mav = new ModelAndView("js");
 		
 		ProjectsDTO[] projects = null;
 		
-		projects = webRestTemplate.getForObject("http://localhost:8088/api/projects/javascript/"+languages, ProjectsDTO[].class);
+		projects = webRestTemplate.getForObject("http://localhost:8083/api/projects/"+languages, ProjectsDTO[].class);
 		
 //		Arrays.stream(projects).forEach(project -> System.out.println(project));
 		Arrays.toString(projects);
 		mav.addObject("projects", projects);
+			
+		return mav;
+	}
+	
+	//----------------------------------------------------------------------------view tools websites
+	@GetMapping("/tool")
+	public ModelAndView viewTools(@RequestParam("type") String type) {
+		ModelAndView mav = new ModelAndView("tools");
+		
+		LinksDTO[] links = webRestTemplate.getForObject("http://localhost:8086/api/links/"+type, LinksDTO[].class);
+		
+		Arrays.toString(links);
+		
+		mav.addObject("links", links);
 		
 		return mav;
 	}
 	
+	//----------------------------------------------------------------------------view tutorial websites
+	@GetMapping("/website")
+	public ModelAndView viewWebsites(@RequestParam("type") String type) {
+		ModelAndView mav = new ModelAndView("websites");
+		
+		LinksDTO[] links = webRestTemplate.getForObject("http://localhost:8086/api/links/"+type, LinksDTO[].class);
+		
+		Arrays.toString(links);
+		
+		mav.addObject("links", links);
+		
+		return mav;
+	}
+	//----------------------------------------------------------------------------view github repositories
+	@GetMapping("/github")
+	public ModelAndView viewGithubRepositories(@RequestParam("type") String type) {
+		ModelAndView mav = new ModelAndView("git-repositories");
+		
+		LinksDTO[] links = webRestTemplate.getForObject("http://localhost:8086/api/links/" + type, LinksDTO[].class);
+		
+		Arrays.toString(links);
+		
+		mav.addObject("links", links);
+		
+		return mav;
+	}
 //redirect to project.jsp-------------------------------------------------------------------------TODO
 	@GetMapping("/project")
 	public ModelAndView goToProject(@RequestParam long id, ProjectsDTO projectsDto) {
@@ -150,26 +217,24 @@ public class ProjectController extends RestTemplate{
 //	}
 	
 	
-	@GetMapping(value = "/add")
-	public ModelAndView addProjects() {
-		ModelAndView mav = new ModelAndView("new-project");
-		
-		return mav;
+	@GetMapping("/add")
+	public String addProjects(@ModelAttribute ProjectsDTO projectsDto) {
+		return "new-project";
 	}
 	
 	//add project
-	@PostMapping(value ="add", produces = "application/json")
-	public String addProject(@ModelAttribute ProjectsDTO projectsDto, String title, ModelMap modelMap) {
+	@PostMapping("/add")
+	public String addProject(@ModelAttribute ProjectsDTO projectsDto, Model model) {
+
+		String url = "http://localhost:8083/api/projects/";
 		
-			String url = "http://localhost:8088/api/projects";
-			
-			modelMap.addAttribute("projectsDto", projectsDto);
-			
-			projectsDto = webRestTemplate.postForObject(url, projectsDto, ProjectsDTO.class);
-			
-			log.info("projectsDto: " + projectsDto);
-			
-			return "new-project";
+		projectsDto = webRestTemplate.postForObject(url, projectsDto, ProjectsDTO.class);
+		
+		model.addAttribute("projects", projectsDto);
+		
+		log.info("projects: ", projectsDto);
+		
+		return "redirect:/add";
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
@@ -193,7 +258,7 @@ public class ProjectController extends RestTemplate{
 		log.info("title " + title);
 		String message = "";
 		
-		webRestTemplate.put("http://localhost:8088/api/projects/title/"+title, project, ProjectsDTO.class);
+		webRestTemplate.put("http://localhost:8083/api/projects/title/"+title, project, ProjectsDTO.class);
 		
 		modelMap.addAttribute("project", project);
 		modelMap.addAttribute("updated successfully", message);
@@ -204,28 +269,32 @@ public class ProjectController extends RestTemplate{
 	
 	//------------------------------------------------------------------------------------------------delete java project
 	@RequestMapping("/java/title")			
-	public void deleteJava( @RequestParam("title") String title, HttpServletResponse response) throws Exception{
-			log.info("title: "+title);
-			webRestTemplate.delete("http://localhost:8088/api/projects/title/"+title);
+	public String deleteJava( @RequestParam("title") String title) throws Exception{
 			
-			response.sendRedirect("/java?languages=java");
+			log.info("title: "+title);
+			webRestTemplate.delete("http://localhost:8083/api/projects/title/"+title);
+			
+			return "redirect:/java?languages=java";
 	}
 	
 	//------------------------------------------------------------------------------------------------delete angular project
 	@RequestMapping("/angular/title")
-	public void deleteAngular(@RequestParam("title") String title, HttpServletResponse response) throws Exception{
-		log.info(title + " deleted");
-		webRestTemplate.delete("http://localhost:8088/api/projects/title/"+title);
+	public String deleteAngular(@RequestParam("title") String title) throws Exception{
 		
-		response.sendRedirect("/angular?languages=angular");
+		log.info(title + " deleted");
+		webRestTemplate.delete("http://localhost:8083/api/projects/title/"+title);
+		
+		return "redirect:/angular?languages=angular";
 	}
 	
 	//------------------------------------------------------------------------------------------------delete javascript project
 	@RequestMapping("/javascript/title")
-	public void deleteJS(@RequestParam("title") String title, HttpServletResponse response) throws Exception {
+	public String deleteJS(@RequestParam("title") String title) throws Exception {
+		
 		log.info(title + " deleted");
-		webRestTemplate.delete("http://localhost:8088/api/projects/title/"+title);
-		response.sendRedirect("/javascript?languages=javascript");
+		webRestTemplate.delete("http://localhost:8083/api/projects/title/"+title);
+		
+		return "redirect:/javascript?languages=javascript";
 	}
 	
 	@GetMapping("/logs")

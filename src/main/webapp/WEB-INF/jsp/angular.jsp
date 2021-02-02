@@ -24,16 +24,32 @@
 <body id="top">
     <!-- Header -->
     <header id="header" class="skel-layers-fixed">
-        <h1><a href="/">Logo</a></h1>
+        <h1><a href="/">PROJECTS</a></h1>
         <nav id="nav">
             <ul>
-            	<li><a href="/add">NEW PROJECT</a></li>
-            	<li><a href="/websites">WEBSITES</a></li>
-                <li><a href="blogs">BLOGS</a></li>
-            	<li><a href="tools">TOOLS</a></li>
-                <li><a href="/">FRONT-END</a></li>
-                <li><a href="/#backend">BACK-END</a></li>
-                <li><a href="/#frontend">HOME</a></li>
+				<li class="dropdown">
+					<span>NEW</span>
+						<p class="dropdown-content">
+							<a href="/add">NEW PROJECT</a>
+							<a href="/addLink">NEW LINK</a>
+						</p>
+				</li>	            
+                <li><a href="/blogs">BLOGS</a></li>
+                <li class="dropdown">
+                	<span>WEBSITES</span>
+                		<p class="dropdown-content">
+                			<a href="/website/?type=tutorials">WEBSITES</a><br>
+                			<a href="/tool/?type=tool">TOOLS</a><br>
+                			<a href="/github/?type=github">GITHUB</a>
+                		</p>
+                </li>
+                <li class="dropdown">
+                	<span><a href="/">MY PROJECTS</a></span>
+	                	<p class="dropdown-content">
+		                	<a href="/java?languages=java">JAVA</a><br>
+			                <a href="/javascript?languages=javascript">JAVASCRIPT</a>
+	                	</p>
+                </li>
             </ul>
         </nav>
     </header>

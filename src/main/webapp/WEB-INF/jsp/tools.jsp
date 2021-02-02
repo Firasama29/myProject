@@ -8,6 +8,43 @@
 		<link rel="stylesheet" href="/resources/css/skel.css" />
 		<link rel="stylesheet" href="/resources/css/style.css" />
 		<link rel="stylesheet" href="/resources/css/style-xlarge.css" />
+<style>
+	.collapsible {
+	  background-color: #777;
+	  color: white;
+	  cursor: pointer;
+	  padding: 18px;
+	  width: 100%;
+	  border: none;
+	  text-align: left;
+	  outline: none;
+	  font-size: 15px;
+	}
+	
+	.active, .collapsible:hover {
+	  background-color: #555;
+	}
+	
+	.collapsible:after {
+	  content: '\002B';
+	  color: white;
+	  font-weight: bold;
+	  float: right;
+	  margin-left: 5px;
+	}
+	
+	.active:after {
+	  content: "\2212";
+	}
+	
+	.content {
+	  padding: 0 18px;
+	  max-height: 0;
+	  overflow: hidden;
+	  transition: max-height 0.2s ease-out;
+	  background-color: #f1f1f1;
+	}
+</style>
 </head>
 <body id="top">
 
@@ -22,8 +59,8 @@
 							<a href="/add">NEW PROJECT</a>
 							<a href="/addLink">NEW LINK</a>
 						</p>
-				</li>	            
-                <li ><a class="listing" href="/blogs">BLOGS</a></li>
+				</li>            
+                <li><a href="/blogs">BLOGS</a></li>
                 <li class="dropdown">
                 	<span>WEBSITES</span>
                 		<p class="dropdown-content">
@@ -44,23 +81,25 @@
         </nav>
     </header>
 
-	<h2>USEFUL WEBSITES</h2>
+	<h2>Toolkit</h2>
 	<p>This section lists down some of the most useful web-sites</p>
+	
 		<div>
 			<table>
 				<tr>
-					<th><h3><strong>WEB-SITE</strong></h3></th>
-					<th><h3><strong>Category</strong></h3></th>
+					<th><h3><strong>NAME</strong></h3></th>
+					<th><h3><strong>DESCRIPTION</strong></h3></th>
+					<th><h3><strong>CATEGORY</strong></h3></th>
 					<th><h3><strong>LINK</strong></h3></th>
-				</tr>
-						<c:forEach items="${links}" var="link">
-							<tr>
-					  			<td><a href="${link.url}" target="_blank">${link.linkName}</a></td>
-					  			<td><a href="${link.url}" target="_blank">${link.categories}</a></td>
-					  			<td><a href="${link.url}" target="_blank">${link.url}</a></td>
-							</tr>
-<%-- 						</c:forEach> --%>
-					</c:forEach>	
+				</tr>	
+				<c:forEach items="${links}" var="link">
+					<tr>
+				  		<td id="general"><a href="${link.url}" target="_blank">${link.linkName}</a></td>
+				  		<td id="general"><a href="${link.url}" target="_blank">${link.description}</a></td>
+				  		<td id="general"><a href="${link.url}" target="_blank">${link.categories}</a></td>
+				  		<td id="general"><a href="${link.url}" target="_blank">${link.url}</a></td>
+					</tr>
+				</c:forEach>		
 			</table>	
 		</div>
 </body>
